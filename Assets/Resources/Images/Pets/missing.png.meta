@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: fc07d3d6e43bb2b4da7bd0435ec1bf2d
+guid: 12abe6c28a951674bb428ad64c787fab
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -8320379370224198969
-    second: Sample Card_0
+      213: 8477613148721345391
+    second: missing_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -123,6 +123,19 @@ TextureImporter:
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
     buildTarget: WindowsStoreApps
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -139,13 +152,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Sample Card_0
+      name: missing_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 960
-        height: 960
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -154,8 +167,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 7ca5c49cb03188c80800000000000000
-      internalID: -8320379370224198969
+      spriteID: f6377b01e3886a570800000000000000
+      internalID: 8477613148721345391
       vertices: []
       indices: 
       edges: []

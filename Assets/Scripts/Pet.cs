@@ -15,16 +15,39 @@ public class Pet : MonoBehaviour
         if (spriteRenderer == null)
         {
             spriteRenderer = gameObject.AddComponent<SpriteRenderer>();
-            if (petValue.image != null) spriteRenderer.sprite = petValue.image;
         }
-
+        GameObject controllerObject = GameObject.Find("Controller"); // Find the Controller GameObject
+        if (controllerObject != null)
+        {
+            Controller controller = controllerObject.GetComponent<Controller>();
+            if (controller != null)
+            {
+                Debug.Log($"Pet.CreatePet: Loading image: {petValue.imageName}");
+                cardValue.image = controller.cardValues.GetPetSprite(cardValue.imageName);
+                Debug.Log($"Pet.CreatePet: Image loaded: {(cardValue.image != null ? "Yes" : "No")}"); // Check if null
+                if(cardValue.image != null)
+                    spriteRenderer.sprite = cardValue.image;
+                else
+                {
+                    Debug.LogWarning("Pet.CreatePet: cardValue.image is null, no sprite will be displayed.");
+                }
+            }
+            else
+            {
+                Debug.LogError("Pet.CreatePet: Controller component not found on 'Controller' game object.");
+            }
+        }
+        else
+        {
+            Debug.LogError("Pet.CreatePet: 'Controller' game object not found in scene.");
+        }
         // Create and set up the name text
         var nameTextObject = new GameObject("NameText");
         nameTextObject.transform.SetParent(transform);
         var nameText = nameTextObject.AddComponent<TextMeshPro>();
 
         nameText.text = petValue.name;
-        nameText.fontSize = 4;
+        nameText.fontSize = 3;
         nameText.alignment = TextAlignmentOptions.Center;
         nameTextObject.transform.localPosition = new Vector3(0, 0.7f, 0); // Position above the pet
 
@@ -34,7 +57,7 @@ public class Pet : MonoBehaviour
         _healthText = healthTextObject.AddComponent<TextMeshPro>();
 
         _healthText.text = "Health: " + petValue.health;
-        _healthText.fontSize = 4;
+        _healthText.fontSize = 3;
         _healthText.alignment = TextAlignmentOptions.Center;
         healthTextObject.transform.localPosition = new Vector3(0, -0.7f, 0); // Position below the pet
 

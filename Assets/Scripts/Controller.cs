@@ -14,21 +14,21 @@ public class Controller : MonoBehaviour
     private Pet _selectedAttacker;
     private Pet _selectedTarget;
     private Bot _bot;
-    [SerializeField] private CardValues cardValues;
+    [SerializeField] public CardValues cardValues;
     [SerializeField] private GameObject petPrefab;
 
     [SerializeField] private Vector3 playerPetStartPosition;
     [SerializeField] private float playerPetVerticalSpacing;
     [SerializeField] private Vector3 botPetStartPosition;
     [SerializeField] private float botPetVerticalSpacing;
-    [SerializeField] private float petZPosition = 0f;
+    [SerializeField] private float petZPosition;
 
     private void Start()
     {
         Debug.Log("Controller.Start: Initializing...");
         _bot = gameObject.AddComponent<Bot>();
         _bot.controller = this;
-        _bot.botInventory.entities = new CardValue[]
+        _bot.botInventory.entities = new []
         {
             cardValues.PetS0002,
             cardValues.PetS0003
@@ -43,12 +43,14 @@ public class Controller : MonoBehaviour
     public void CreatePets()
     {
         Debug.Log("Controller.CreatePets: Starting pet creation...");
-        Inventory playerInventory = new();
-
-        playerInventory.entities = new CardValue[]
+        Inventory playerInventory = new()
         {
-            cardValues.PetS0001
+            entities = new []
+            {
+                cardValues.PetS0001,
+            }
         };
+
         // Instantiate pets
         foreach (var petValue in playerInventory.entities)
         {
@@ -185,7 +187,6 @@ public class Controller : MonoBehaviour
     private IEnumerator Attack()
     {
         Debug.Log($"Controller.Attack: Attack coroutine started. _selectedAttacker: {_selectedAttacker.name}, _selectedTarget: {_selectedTarget.name}");
-        //Make sure both an attacker and a target exist.
         if (_selectedAttacker != null && _selectedTarget != null)
         {
             Debug.Log($"Controller.Attack: {_selectedAttacker.name} is attacking {_selectedTarget.name}");

@@ -304,7 +304,7 @@ MonoBehaviour:
   playerPets: []
   botPets: []
   cardValues: {fileID: 924979495}
-  petPrefab: {fileID: 7282700412442339718, guid: ba98bc1cabd100c45a2bc2e83c918391, type: 3}
+  petPrefab: {fileID: 8452444360761905843, guid: ba98bc1cabd100c45a2bc2e83c918391, type: 3}
   playerPetStartPosition: {x: -5, y: 2, z: 0}
   playerPetVerticalSpacing: -2
   botPetStartPosition: {x: 5, y: 2, z: 0}
