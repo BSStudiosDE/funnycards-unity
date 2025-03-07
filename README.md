@@ -2,7 +2,7 @@
  The Unity Repo for the FUNNYCARDS game
 
 ## CREDITS
-### Benjamin Mueller
+### Benjamin Müller
 - Owner
 - Developer
 - Music Designer
