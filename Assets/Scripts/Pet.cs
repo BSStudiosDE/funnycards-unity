@@ -92,7 +92,7 @@ public class Pet : MonoBehaviour
     {
         Debug.Log($"{cardValue.name} was clicked.");
         Controller controller = FindObjectOfType<Controller>();
-        controller.PetClicked(this);
+        controller.PetClicked(this, 0);
         Debug.Log("Finished.");
     }
 }

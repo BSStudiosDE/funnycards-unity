@@ -34,8 +34,8 @@ public class Bot : MonoBehaviour
         Debug.Log($"Bot.TakeTurn: Bot selecting attacker: {attacker.name}, target: {target.name}");
         controller.AddLog($"Bot selects {attacker.name} to attack {target.name}.");
         // Let the controller know that these pets are selected
-        controller.PetClicked(attacker);
-        controller.PetClicked(target);
+        controller.PetClicked(attacker, 1);
+        controller.PetClicked(target, 1);
     }
     // ReSharper disable Unity.PerformanceAnalysis
     private Pet GetRandomAlivePet(List<Pet> pets)

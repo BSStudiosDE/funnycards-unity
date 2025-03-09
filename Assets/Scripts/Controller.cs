@@ -30,6 +30,7 @@ public class Controller : MonoBehaviour
     private bool _gameOver;
     private bool _nextTurnClickable;
     private bool _isAttacking; // Flag to prevent actions during attacks
+    private bool _playerCanClick;
 
     private void Start()
     {
@@ -141,11 +142,15 @@ public class Controller : MonoBehaviour
         _selectedAttacker = null;
         _selectedTarget = null;
         Debug.Log("Controller.AttackRound: AttackRound started.");
+        
         //Player's Turn
+        _playerCanClick = true;
         currentTurnState = TurnState.PlayerTurn;
+        
         AddLog("It is your turn.");
         yield return new WaitForSeconds(1.0f);
-        //Wait for player to attack
+        AddLog("Please select Attacker");
+        
         while (_selectedAttacker == null || _selectedTarget == null)
         {
             yield return null;
@@ -155,7 +160,8 @@ public class Controller : MonoBehaviour
         {
             yield return null;
         }
-        //Check if the game is over.
+
+        _playerCanClick = false;
         CheckForGameOver();
         if (_gameOver)
         {
@@ -163,6 +169,7 @@ public class Controller : MonoBehaviour
             _nextTurnClickable = true;
             yield break;
         }
+        
         //Bot's Turn
         currentTurnState = TurnState.BotTurn;
         _bot.TakeTurn();
@@ -187,12 +194,14 @@ public class Controller : MonoBehaviour
             NextTurn();
         }
     }
-    public void PetClicked(Pet pet)
+    public void PetClicked(Pet pet, byte source)
     {
+        if (!_playerCanClick && source == 0) return;
+        
         Debug.Log($"Controller.PetClicked: Pet {pet.name} clicked. Player's turn: {runtime.playerTurn}");
-        if (_selectedAttacker != null && _selectedTarget != null)
+        if (_selectedAttacker != null && _selectedTarget != null && currentTurnState == TurnState.PlayerTurn)
         {
-            StartCoroutine(Attack());
+            StartCoroutine(Attack()); //start the attack here.
             return;
         }
         if(currentTurnState == TurnState.PlayerTurn && !_gameOver)
@@ -203,12 +212,13 @@ public class Controller : MonoBehaviour
                 {
                     _selectedAttacker = pet;
                     Debug.Log($"Controller.PetClicked: Player Attacker Selected: {pet.name}");
+                    AddLog("Please select Target");
                 }
-                else if (_selectedAttacker == pet)
+                else if (_selectedAttacker != null)
                 {
-                    _selectedAttacker = null;
-                    Debug.Log($"Controller.PetClicked: Player Attacker deselected: {pet.name}");
-                    _selectedTarget = null;
+                    _selectedAttacker = pet;
+                    Debug.Log($"Controller.PetClicked: Player Change Attacker selected: {pet.name}");
+                    AddLog("Please select Target");
                 }
             }
             else if (botPets.Contains(pet))
@@ -226,32 +236,33 @@ public class Controller : MonoBehaviour
         }
         else if(currentTurnState == TurnState.BotTurn && !_gameOver)
         {
-            if (botPets.Contains(pet))
-            {
-                if (_selectedAttacker == null)
-                {
-                    _selectedAttacker = pet;
-                    Debug.Log($"Controller.PetClicked: Bot Attacker Selected: {pet.name}");
-                }
-                else if (_selectedAttacker == pet)
-                {
-                    _selectedAttacker = null;
-                    Debug.Log($"Controller.PetClicked: Bot Attacker deselected: {pet.name}");
-                    _selectedTarget = null;
-                }
-            }
-            else if (playerPets.Contains(pet))
-            {
-                if (_selectedAttacker != null)
-                {
-                    _selectedTarget = pet;
-                    Debug.Log($"Controller.PetClicked: Bot Target Selected: {pet.name}");
-                }
-                else
-                {
-                    Debug.Log("Controller.PetClicked: No attacker selected, target is ignored");
-                }
-            }
+             if (botPets.Contains(pet))
+             {
+                 if (_selectedAttacker == null)
+                 {
+                     _selectedAttacker = pet;
+                     Debug.Log($"Controller.PetClicked: Bot Attacker Selected: {pet.name}");
+                 }
+                 else if (_selectedAttacker == pet)
+                 {
+                     _selectedAttacker = null;
+                     Debug.Log($"Controller.PetClicked: Bot Attacker deselected: {pet.name}");
+                     _selectedTarget = null;
+                 }
+             }
+             else if (playerPets.Contains(pet))
+             {
+                 if (_selectedAttacker != null && _selectedTarget == null) 
+                 {
+                     _selectedTarget = pet;
+                     Debug.Log($"Controller.PetClicked: Bot Target Selected: {pet.name}");
+                     StartCoroutine(Attack()); //start the attack here.
+                 }
+                 else
+                 {
+                     Debug.Log("Controller.PetClicked: No attacker selected, target is ignored");
+                 }
+             }
         }
 
         Debug.Log($"Controller.PetClicked: _selectedAttacker: {_selectedAttacker?.name}, _selectedTarget: {_selectedTarget?.name}");
@@ -283,7 +294,7 @@ public class Controller : MonoBehaviour
         Debug.Log("Controller.Attack: Attack coroutine finished.");
         _selectedAttacker = null;
         _selectedTarget = null;
-        _isAttacking = false;
+        _isAttacking = false;//Set it here.
     }
 
     public void RemovePetFromLists(Pet pet)
