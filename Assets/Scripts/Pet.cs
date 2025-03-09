@@ -29,7 +29,7 @@ public class Pet : MonoBehaviour
                     spriteRenderer.sprite = cardValue.image;
                 else
                 {
-                    Debug.LogWarning("Pet.CreatePet: cardValue.image is null, no sprite will be displayed.");
+                    Debug.LogWarning("Pet.CreatePet: cardValue.image is null, the missing sprite texture will be displayed.");
                 }
             }
             else
@@ -41,51 +41,58 @@ public class Pet : MonoBehaviour
         {
             Debug.LogError("Pet.CreatePet: 'Controller' game object not found in scene.");
         }
+
+        TMP_FontAsset fontAsset = Resources.Load<TMP_FontAsset>("Funnypixel_1");
+        if (fontAsset == null)
+        {
+            Debug.LogError("Pet.CreatePet: Failed to load font Funnypixel_1 SDF");
+        }
+        
         // Create and set up the name text
         var nameTextObject = new GameObject("NameText");
         nameTextObject.transform.SetParent(transform);
         var nameText = nameTextObject.AddComponent<TextMeshPro>();
-
+        if(fontAsset != null)
+            nameText.font = fontAsset;
         nameText.text = petValue.name;
-        nameText.fontSize = 3;
+        nameText.fontSize = 2;
         nameText.alignment = TextAlignmentOptions.Center;
-        nameTextObject.transform.localPosition = new Vector3(0, 0.7f, 0); // Position above the pet
+        nameTextObject.transform.localPosition = new Vector3(0, 0.5f, 0); // Position above the pet
 
         // Create and set up the health text
         var healthTextObject = new GameObject("HealthText");
         healthTextObject.transform.SetParent(transform);
         _healthText = healthTextObject.AddComponent<TextMeshPro>();
-
+        if(fontAsset != null)
+            _healthText.font = fontAsset;
         _healthText.text = "Health: " + petValue.health;
-        _healthText.fontSize = 3;
+        _healthText.fontSize = 2;
         _healthText.alignment = TextAlignmentOptions.Center;
-        healthTextObject.transform.localPosition = new Vector3(0, -0.7f, 0); // Position below the pet
+        healthTextObject.transform.localPosition = new Vector3(0, -0.5f, 0); // Position below the pet
 
         //tag the game object as a pet
         gameObject.tag = "Pet";
         Debug.Log($"Pet.CreatePet: Pet {petValue.name} created.");
     }
 
-    public void ChangeHealth(float changeAmount)
+    
+
+    public void ChangeHealth(float amount)
     {
-        Debug.Log($"Pet.ChangeHealth: Changing health of {name} by {changeAmount}.");
-        cardValue.health += changeAmount;
-        _healthText.text = "Health: " + cardValue.health;
-        Debug.Log($"Pet.ChangeHealth: {name}'s health is now {cardValue.health}.");
+        Debug.Log($"Pet.ChangeHealth: Changing health of {cardValue.name} by {amount}.");
+        cardValue.health += amount;
+        if (cardValue.health <= 0)
+        {
+            cardValue.health = 0;
+        }
+        Debug.Log($"Pet.ChangeHealth: {cardValue.name}'s health is now {cardValue.health}.");
     }
+    
     private void OnMouseDown()
     {
-        Debug.Log($"Pet.OnMouseDown: {name} was clicked.");
-        // Tell the controller that this pet was clicked
-        GameObject controllerObject = GameObject.Find("Controller"); // Find the Controller GameObject
-        if (controllerObject != null)
-        {
-            Controller controller = controllerObject.GetComponent<Controller>();
-            if (controller != null)
-            {
-                controller.PetClicked(this);
-            }
-        }
-        Debug.Log($"Pet.OnMouseDown: Finished.");
+        Debug.Log($"{cardValue.name} was clicked.");
+        Controller controller = FindObjectOfType<Controller>();
+        controller.PetClicked(this);
+        Debug.Log("Finished.");
     }
 }

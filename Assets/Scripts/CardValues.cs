@@ -12,7 +12,7 @@ public class CardValues : MonoBehaviour
         attackDeviator = 0.1f,
         tier = "S",
         type = "Pet",
-        imageName = "Larry",
+        imageName = "missing",
         abilities = new Ability[]
         {
             new()
@@ -43,7 +43,7 @@ public class CardValues : MonoBehaviour
         attackDeviator = 0.1f,
         tier = "S",
         type = "Pet",
-        imageName = "missing",
+        imageName = "Sprite-Adinath",
         abilities = new Ability[]
         {
             new()
@@ -123,7 +123,7 @@ public class CardValues : MonoBehaviour
         attackDeviator = 0.1f,
         tier = "A",
         type = "Pet",
-        imageName = "missing",
+        imageName = "Sprite-Creb",
         abilities = new Ability[]
         {
             new()
@@ -171,7 +171,7 @@ public class CardValues : MonoBehaviour
         attackDeviator = 0.1f,
         tier = "A",
         type = "Pet",
-        imageName = "missing",
+        imageName = "Sprite-Wowosaurus",
         abilities = new Ability[]
         {
             new()
@@ -219,7 +219,7 @@ public class CardValues : MonoBehaviour
         attackDeviator = 0.1f,
         tier = "A",
         type = "Pet",
-        imageName = "missing",
+        imageName = "Sprite-Eli",
         abilities = new Ability[]
         {
             new()
@@ -252,7 +252,7 @@ public class CardValues : MonoBehaviour
         attackDeviator = 0.1f,
         tier = "B",
         type = "Pet",
-        imageName = "missing",
+        imageName = "Sprite-Uwusaurus",
         abilities = new Ability[]
         {
             new()
@@ -260,6 +260,7 @@ public class CardValues : MonoBehaviour
                 name = "uwu",
                 description = "summons u, w, and u around and enemy of your choice, dealing 100 damage.",
                 cooldown = 10,
+                id = "B0001_ability0",
                 effects = new Effect[]
                 {
                     new()
@@ -270,22 +271,84 @@ public class CardValues : MonoBehaviour
                         duration = 0
                     }
                 }
+            },
+            new()
+            {
+                name = "Smelly Feet",
+                description = "Uses his smelly feet to deal 50 damage to all enemies",
+                cooldown = 10,
+                id = "B0001_ability1",
+                effects = new Effect[]
+                {
+                    new()
+                    {
+                        type = "updateHealth",
+                        target = new[] { "enemy", "all" },
+                        amplifier = -50,
+                        duration = 0
+                    }
+                }
             }
         }
     };
 
     // TIER C CARDS
+    public CardValue PetC0001 = new()
+    {
+        name = "Fred",
+        health = 350,
+        baseAttack = 35,
+        attackDeviator = 0.1f,
+        tier = "C",
+        type = "Pet",
+        imageName = "missing",
+        abilities = new Ability[]
+        {
+            
+        }
+    };
 
+    
+    // TIER D CARDS
+    public CardValue PetD0001 = new()
+    {
+        name = "John the Egg",
+        health = 150,
+        baseAttack = 20,
+        attackDeviator = 0.1f,
+        tier = "D",
+        type = "Pet",
+        imageName = "JohnTheEgg",
+        abilities = new Ability[]
+        {
+            new()
+            {
+                name = "egg",
+                description = "Summons egg around the enemy, dealing 40 damage",
+                cooldown = 10,
+                id = "D0001_ablility0",
+                effects = new Effect[]
+                {
+                    new()
+                    {
+                        type = "updateHealth",
+                        target = new []{ "enemy", "select" }
+                    }
+                }
+            }
+        }
+    };
+    
     // TIER S ITEMS
 
     // OTHER SHIT
     public Sprite GetPetSprite(string imageName)
     {
         Debug.Log($"CardValues.GetPetSprite: Attempting to load sprite: Images/Pets/{imageName}");
-        Sprite sprite = Resources.Load<Sprite>($"Images/Pets/{imageName}");
+        var sprite = Resources.Load<Sprite>($"Images/Pets/{imageName}");
         if (sprite == null)
         {
-            Debug.LogError($"CardValues.GetPetSprite: Failed to load sprite: Images/Pets/{imageName}");
+            Debug.LogError($"CardValues.GetPetSprite: Failed to load sprite: Images/Pets/{imageName}; No such sprite found in directory");
         }
         return sprite;
     }
