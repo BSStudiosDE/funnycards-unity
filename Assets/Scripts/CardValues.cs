@@ -65,18 +65,18 @@ public class CardValues : MonoBehaviour
             },
             new()
             {
-                name = "Big Brain Moves",
-                description = "Uses his big brain to deal 250 damage to an enemy of your choice.",
+                name = "Inverse Operation",
+                description = "Makes enemy attacks add health instead of subtracting it for 2 turns",
                 cooldown = 10,
                 id = "S0002_ability1",
                 effects = new Effect[]
                 {
                     new()
                     {
-                        type = "updateHealth",
+                        type = "multiplyDamage",
                         target = new[] { "enemy", "select"},
-                        amplifier = -250,
-                        duration = 0,
+                        amplifier = -1,
+                        duration = 2,
                     }
                 }
             }
