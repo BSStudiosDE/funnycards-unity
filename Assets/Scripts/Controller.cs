@@ -317,7 +317,7 @@ public class Controller : MonoBehaviour
         else if (botPets.All(pet => pet.cardValue.health <= 0) || botPets.Sum(pet => pet.cardValue.health) <= 0)
         {
             Debug.Log("Controller.CheckForGameOver: Player Wins!");
-            EndGame("You won!");
+            EndGame("You won! :D");
         }
         else
         {
