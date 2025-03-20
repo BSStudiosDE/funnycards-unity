@@ -4,7 +4,7 @@
 ## CREDITS
 ### Benjamin Müller
 - Owner
-- Developer
+- Developer/Programmer
 - Music Designer
 
 ### Jonas Rübenkamm
